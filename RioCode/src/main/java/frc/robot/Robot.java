@@ -10,7 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Logger;
 
+import java.util.Arrays;
 
 
 /**
@@ -22,6 +25,11 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 public class Robot extends TimedRobot {
     public static OI m_oi;
+
+    public static SubsystemManager manager = new SubsystemManager(Arrays.asList(
+            Drive.getInstance(),
+            Logger.getInstance()
+    ));
 
 
   /**

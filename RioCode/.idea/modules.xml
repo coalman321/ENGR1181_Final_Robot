@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/RioCode.iml" filepath="$PROJECT_DIR$/RioCode.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RioCode_main.iml" filepath="$PROJECT_DIR$/.idea/modules/RioCode_main.iml" group="RioCode" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RioCode_test.iml" filepath="$PROJECT_DIR$/.idea/modules/RioCode_test.iml" group="RioCode" />
+    </modules>
+  </component>
+</project>

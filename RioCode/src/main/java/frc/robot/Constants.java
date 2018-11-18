@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import frc.lib.util.HIDHelper;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -41,9 +44,15 @@ public class Constants {
     public static final double DRIVE_LEFT_KD = 0.0;
 
     //Logging Parameters
-    public static final String NEWLINE = "";
+    public static final String DATA_SEPERATOR = "";
     public static final String[] NUMBER_KEYS = {};
     public static final String[] STRING_KEYS = {};
 
 
+    public static final boolean ENABLE_MP_TEST_MODE = false;
+    public static final boolean RAMPUP = false;
+
+    public static final Joystick MASTER = new Joystick(0);
+    public static final HIDHelper.HIDConstants MASTER_STICK = new HIDHelper.HIDConstants(MASTER, 0.15, 1.0, 1.0, 0.45, 2);
+    public static final double LOOPER_DT = 0.010;
 }
