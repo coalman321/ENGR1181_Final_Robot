@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: edu.wpi.first.cameraserver:cameraserver-java:2019.1.1-beta-2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.cameraserver/cameraserver-java/2019.1.1-beta-2/f6b168eb095755623088edcdd7c758a90183b79/cameraserver-java-2019.1.1-beta-2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.cameraserver/cameraserver-java/2019.1.1-beta-2/b12b1d7a02f3818296fb6cf785953dc4a816b1cd/cameraserver-java-2019.1.1-beta-2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

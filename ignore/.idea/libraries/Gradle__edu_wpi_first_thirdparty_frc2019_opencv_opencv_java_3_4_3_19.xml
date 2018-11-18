@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: edu.wpi.first.thirdparty.frc2019.opencv:opencv-java:3.4.3-19">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.thirdparty.frc2019.opencv/opencv-java/3.4.3-19/2b6753a464c42c91a90d9278af474fc5e54dbde5/opencv-java-3.4.3-19.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.thirdparty.frc2019.opencv/opencv-java/3.4.3-19/2f2a5516300bf3f313f3aab70662e00e5b50b993/opencv-java-3.4.3-19-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
