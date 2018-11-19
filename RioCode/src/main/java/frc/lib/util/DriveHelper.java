@@ -2,7 +2,7 @@ package frc.lib.util;
 
 public class DriveHelper {
 
-    public DriveSignal arcadeDrive(double xSpeed, double zRotation, boolean brake) {
+    public static DriveSignal arcadeDrive(double xSpeed, double zRotation, boolean brake) {
         double leftMotorOutput;
         double rightMotorOutput;
 
@@ -29,5 +29,7 @@ public class DriveHelper {
         }
         return new DriveSignal(rightMotorOutput, leftMotorOutput, brake);
     }
+
+
 
 }

@@ -11,6 +11,11 @@ public class DriveSignal {
     public static final DriveSignal NEUTRAL = new DriveSignal(0, 0, false);
     public static final DriveSignal BRAKE = new DriveSignal(0, 0, true);
 
+
+    public DriveSignal(double linear, double angular) {
+        this(linear, angular, false);
+    }
+
     public DriveSignal(double left, double right, boolean brakeMode) {
         mLeftMotor = left;
         mRightMotor = right;

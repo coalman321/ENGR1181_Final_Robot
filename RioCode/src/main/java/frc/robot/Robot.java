@@ -10,8 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.lib.loops.Loop;
+import frc.lib.loops.Looper;
+import frc.lib.util.Util;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Logger;
+import frc.robot.subsystems.PoseEstimator;
 
 import java.util.Arrays;
 
@@ -25,11 +29,13 @@ import java.util.Arrays;
  */
 public class Robot extends TimedRobot {
     public static OI m_oi;
-
     public static SubsystemManager manager = new SubsystemManager(Arrays.asList(
             Drive.getInstance(),
+            PoseEstimator.getInstance(),
             Logger.getInstance()
     ));
+    private Looper disabledLooper = new Looper();
+    private Looper enabledLooper = new Looper();
 
 
   /**
@@ -38,7 +44,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+      Util.validateBuild();
       m_oi = new OI();
+      Logger.getInstance().addNumberKeys(Constants.NUMBER_KEYS);
+      Logger.getInstance().addStringKeys(Constants.STRING_KEYS);
+      manager.registerEnabledLoops(enabledLooper);
+      manager.registerDisabledLoops(disabledLooper);
+      disabledLooper.start();
   }
 
   /**
@@ -61,7 +73,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-
+      enabledLooper.stop();
+      disabledLooper.start();
   }
 
   @Override
@@ -76,13 +89,14 @@ public class Robot extends TimedRobot {
    * LabVIEW Dashboard, remove all of the chooser code and uncomment the
    * getString code to get the auto name from the text box below the Gyro
    *
-   * <p>You can add additional auto modes by adding additional commands to the
+   * <p>You can add additional auto modes by adding additional actions to the
    * chooser code above (like the commented example) or additional comparisons
-   * to the switch structure below with additional strings & commands.
+   * to the switch structure below with additional strings & actions.
    */
   @Override
   public void autonomousInit() {
-
+      enabledLooper.start();
+      disabledLooper.stop();
   }
 
   /**
@@ -95,7 +109,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-
+      enabledLooper.start();
+      disabledLooper.stop();
   }
 
   /**
@@ -104,6 +119,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
+  }
+
+  @Override
+  public void testInit(){
+      enabledLooper.start();
+      disabledLooper.stop();
   }
 
   /**

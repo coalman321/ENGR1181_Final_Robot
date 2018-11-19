@@ -48,7 +48,7 @@ public class Logger extends Subsystem {
     }
 
     public void outputTelemetry(){
-        if (printWriter != null) {
+        if (printWriter != null && initSuccess) {
             toWrite = "" + Timer.getFPGATimestamp() + Constants.DATA_SEPERATOR;
             for (String key : numberKeys) {
                 toWrite += "" + SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
@@ -60,6 +60,9 @@ public class Logger extends Subsystem {
             //System.out.println(toWrite);
             printWriter.write(toWrite);
             printWriter.flush();
+        }
+        else{
+            DriverStation.reportWarning("logger called to init on Null file stream", false);
         }
     }
 
@@ -90,7 +93,7 @@ public class Logger extends Subsystem {
             outputFormatter.setTimeZone(TimeZone.getTimeZone("US/Eastern"));
             String newDateString = outputFormatter.format(new Date());
             // build the new filename
-            String fileName = newDateString + "_LOG.tsv";
+            String fileName = newDateString + "_LOG.csv";
             // build the full file path name
             return new File(logging_path.getAbsolutePath() + File.separator + fileName);
         }

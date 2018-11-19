@@ -1,6 +1,19 @@
 package frc.lib.util;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.Constants;
+import frc.robot.Robot;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Contains basic functions that are used often.
@@ -60,5 +73,34 @@ public class Util {
             result &= epsilonEquals(value_in, value, epsilon);
         }
         return result;
+    }
+
+    public static void validateBuild() {
+        try {
+            //get the path of the currently executing jar file
+            String currentJarFilePath = Robot.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            Path filePath = Paths.get(currentJarFilePath);
+
+            //get file system details from current file
+            BasicFileAttributes attr = Files.readAttributes(filePath, BasicFileAttributes.class);
+            Date utcFileDate = new Date(attr.lastModifiedTime().toMillis());
+
+            // convert from UTC to local time zone
+            SimpleDateFormat outputFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            outputFormatter.setTimeZone(TimeZone.getTimeZone("US/Eastern"));
+            String newDateString = outputFormatter.format(utcFileDate);
+
+            // write the build date & time to the operator's console log window
+            DriverStation.reportWarning("== Robot Name == " + Constants.ROBOT_NAME + "| Build Date and Time: " + newDateString + "|", false);
+            if (Constants.ENABLE_MP_TEST_MODE) DriverStation.reportWarning("MP TEST MODE IS ENABLED!", false);
+        } catch (
+                URISyntaxException e) {
+            DriverStation.reportWarning("Error determining filename of current JAR file", true);
+            //e.printStackTrace();
+        } catch (
+                IOException e) {
+            DriverStation.reportWarning("General Error trying to determine current JAR file", true);
+            //e.printStackTrace();
+        }
     }
 }
