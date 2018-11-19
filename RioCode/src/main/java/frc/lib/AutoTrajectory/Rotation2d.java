@@ -10,9 +10,10 @@ import java.text.DecimalFormat;
  */
 public class Rotation2d implements Interpolable<Rotation2d> {
     protected static final double kEpsilon = 1E-9;
-
     protected double cos_angle_;
     protected double sin_angle_;
+
+    public static final Rotation2d Identity = Rotation2d.fromDegrees(0);
 
     public Rotation2d() {
         this(1, 0, false);

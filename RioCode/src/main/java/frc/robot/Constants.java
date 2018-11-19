@@ -41,7 +41,7 @@ public class Constants {
 
     //Robot Parameters
     public static final double LOOPER_DT = 0.010;
-    public static final String ROBOT_NAME = "nyoom";
+    public static final String ROBOT_NAME = "Nyoom";
     public static double TRACK_WIDTH_INCHES = 23.5; //TODO validate
     public static double TRACK_SCRUB_FACTOR = 0.5; //TODO validate
     public static double WHEEL_DIAMETER = 6.0; //TODO validate. should be around 7.5
@@ -92,7 +92,7 @@ public class Constants {
 
     //Joystick controls
     public static final Joystick MASTER = new Joystick(0);
-    public static final HIDHelper.HIDConstants MASTER_STICK = new HIDHelper.HIDConstants(MASTER, 0.15, 1.0, 1.0, 0.45, 2);
+    public static final HIDHelper.HIDConstants MASTER_STICK = new HIDHelper.HIDConstants(MASTER, 0.15, 1.0, 1.0, 0.5, 2);
 
 }
 

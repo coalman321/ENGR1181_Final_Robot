@@ -28,6 +28,11 @@ public class Drive extends Subsystem {
     private AdaptivePurePursuitController pathFollowingController;
     private Rotation2d gyroOffset = Rotation2d.fromDegrees(0);
     private PeriodicIO periodicIO;
+
+    //IO unit declarations
+    private TalonSRX frontLeft, frontRight, rearLeft, rearRight;
+    private PigeonIMU imu;
+
     private final Loop mLoop = new Loop() {
 
         @Override
@@ -71,9 +76,6 @@ public class Drive extends Subsystem {
             }
         }
     };
-    //IO unit declarations
-    private TalonSRX frontLeft, frontRight, rearLeft, rearRight;
-    private PigeonIMU imu;
 
     private Drive() {
         periodicIO = new PeriodicIO();
@@ -83,7 +85,6 @@ public class Drive extends Subsystem {
         rearRight = new TalonSRX(Constants.DRIVE_REAR_RIGHT_ID);
         imu = new PigeonIMU(Constants.PIGEON_ID);
         configTalons();
-
     }
 
     public static Drive getInstance() {
@@ -226,6 +227,8 @@ public class Drive extends Subsystem {
         SmartDashboard.putNumber("drive/ rightDemand", periodicIO.right_demand);
         SmartDashboard.putNumber("drive/ leftVelocity", periodicIO.left_velocity_ticks_per_100ms);
         SmartDashboard.putNumber("drive/ rightVelocity", periodicIO.right_velocity_ticks_per_100ms);
+        SmartDashboard.putNumber("drive/ leftRPM", uPer100MsToRPM(periodicIO.left_velocity_ticks_per_100ms));
+        SmartDashboard.putNumber("drive/ rightRPM", uPer100MsToRPM(periodicIO.right_velocity_ticks_per_100ms));
         SmartDashboard.putNumber("drive/ leftPosition", periodicIO.left_position_ticks);
         SmartDashboard.putNumber("drive/ rightPosition", periodicIO.right_position_ticks);
         SmartDashboard.putNumberArray("drive/ operatorInput", operatorInput);
@@ -244,7 +247,7 @@ public class Drive extends Subsystem {
     public void reset() {
         mDriveControlState = DriveControlState.OPEN_LOOP;
         periodicIO = new PeriodicIO();
-        setHeading(Rotation2d.fromDegrees(0));
+        setHeading(Rotation2d.Identity);
         resetEncoders();
     }
 
