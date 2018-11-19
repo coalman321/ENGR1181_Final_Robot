@@ -12,7 +12,9 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.loops.Looper;
+import frc.lib.statemachine.StateMachine;
 import frc.lib.util.Util;
+import frc.robot.routines.DriveTest;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Logger;
 import frc.robot.subsystems.PoseEstimator;
@@ -101,6 +103,7 @@ public class Robot extends TimedRobot {
         enabledLooper.start();
         disabledLooper.stop();
         //TODO handle any communication between systems?
+        //StateMachine.runMachine(new DriveTest());
     }
 
     /**
