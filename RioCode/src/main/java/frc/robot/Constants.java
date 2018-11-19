@@ -51,18 +51,18 @@ public class Constants {
     public static double PATH_FOLLOWING_MAX_ACCELERATION = 42.0; //overall max acceleration - includes turns - in inches/sec^2
 
     //Right drive PID parameters
-    public static final int DRIVE_RIGHT_PID_IDX = 0;
-    public static final double DRIVE_RIGHT_KF = 0.0;
-    public static final double DRIVE_RIGHT_KP = 0.0;
-    public static final double DRIVE_RIGHT_KI = 0.0;
-    public static final double DRIVE_RIGHT_KD = 0.0;
+    public static final int DRIVE_RIGHT_PID_IDX = 0; //pick one and stick to it
+    public static final double DRIVE_RIGHT_KF = 0.0; //TODO tune Me!
+    public static final double DRIVE_RIGHT_KP = 0.0; //TODO tune Me!
+    public static final double DRIVE_RIGHT_KI = 0.0; //can be scary. generally unneeded
+    public static final double DRIVE_RIGHT_KD = 0.0; //TODO tune Me!
 
     //Left Drive PID parameters
-    public static final int DRIVE_LEFT_PID_IDX = 0;
-    public static final double DRIVE_LEFT_KF = 0.0;
-    public static final double DRIVE_LEFT_KP = 0.0;
-    public static final double DRIVE_LEFT_KI = 0.0;
-    public static final double DRIVE_LEFT_KD = 0.0;
+    public static final int DRIVE_LEFT_PID_IDX = 0; //pick one and stick to it
+    public static final double DRIVE_LEFT_KF = 0.0; //TODO tune Me!
+    public static final double DRIVE_LEFT_KP = 0.0; //TODO tune Me!
+    public static final double DRIVE_LEFT_KI = 0.0; //can be scary. generally unneeded
+    public static final double DRIVE_LEFT_KD = 0.0; //TODO tune Me!
 
     /*
      * ------------------------

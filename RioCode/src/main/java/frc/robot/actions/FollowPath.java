@@ -9,7 +9,7 @@ public class FollowPath extends Action {
     private Path mPath;
     private boolean mReversed, mHasStarted;
 
-    public FollowPath(Path path, boolean reversed){
+    public FollowPath(Path path, boolean reversed) {
         mPath = path;
         mReversed = reversed;
         mHasStarted = false;

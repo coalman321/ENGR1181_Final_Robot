@@ -13,11 +13,11 @@ public class SubsystemManager implements ILooper {
     private final List<Subsystem> mAllSubsystems;
     private List<Loop> mLoops = new ArrayList<>();
 
-    public SubsystemManager(List<Subsystem> allSubsystems){
+    public SubsystemManager(List<Subsystem> allSubsystems) {
         mAllSubsystems = allSubsystems;
     }
 
-    public void outputTelemetry(){
+    public void outputTelemetry() {
         mAllSubsystems.forEach((s) -> s.outputTelemetry());
     }
 
@@ -27,6 +27,24 @@ public class SubsystemManager implements ILooper {
 
     public void stop() {
         mAllSubsystems.forEach((s) -> s.stop());
+    }
+
+    public void reset() {
+        mAllSubsystems.forEach((s) -> s.reset());
+    }
+
+    public void registerEnabledLoops(Looper enabledLooper) {
+        mAllSubsystems.forEach((s) -> s.registerEnabledLoops(this));
+        enabledLooper.register(new EnabledLoop());
+    }
+
+    public void registerDisabledLoops(Looper disabledLooper) {
+        disabledLooper.register(new DisabledLoop());
+    }
+
+    @Override
+    public void register(Loop loop) {
+        mLoops.add(loop);
     }
 
     private class EnabledLoop implements Loop {
@@ -80,19 +98,5 @@ public class SubsystemManager implements ILooper {
         public void onStop(double timestamp) {
 
         }
-    }
-
-    public void registerEnabledLoops(Looper enabledLooper) {
-        mAllSubsystems.forEach((s) -> s.registerEnabledLoops(this));
-        enabledLooper.register(new EnabledLoop());
-    }
-
-    public void registerDisabledLoops(Looper disabledLooper) {
-        disabledLooper.register(new DisabledLoop());
-    }
-
-    @Override
-    public void register(Loop loop) {
-        mLoops.add(loop);
     }
 }

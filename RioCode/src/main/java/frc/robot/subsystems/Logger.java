@@ -1,16 +1,17 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.lib.loops.Loop;
+import frc.robot.Constants;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Constants;
 
 public class Logger extends Subsystem {
 
@@ -22,7 +23,39 @@ public class Logger extends Subsystem {
     private String toWrite;
     private boolean initSuccess;
 
-    private Logger(){
+    private Loop mLoop = new Loop(){
+
+        @Override
+        public void onStart(double timestamp) {
+
+        }
+
+        @Override
+        public void onLoop(double timestamp) {
+            if (printWriter != null && initSuccess) {
+                toWrite = "" + Timer.getFPGATimestamp() + Constants.DATA_SEPERATOR;
+                for (String key : numberKeys) {
+                    toWrite += "" + SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
+                }
+                for (String key : stringKeys) {
+                    toWrite += "" + SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
+                }
+                toWrite += "\r\n";
+                //System.out.println(toWrite);
+                printWriter.write(toWrite);
+                printWriter.flush();
+            } else {
+                DriverStation.reportWarning("logger called to init on Null file stream", false);
+            }
+        }
+
+        @Override
+        public void onStop(double timestamp) {
+
+        }
+    };
+
+    private Logger() {
         numberKeys = new ArrayList<>();
         stringKeys = new ArrayList<>();
         try {
@@ -35,35 +68,20 @@ public class Logger extends Subsystem {
         }
     }
 
-    public static Logger getInstance(){
+    public static Logger getInstance() {
         return M_LOGGER;
     }
 
-    public void addNumberKeys(String[] keys){
+    public void addNumberKeys(String[] keys) {
         Collections.addAll(numberKeys, keys);
     }
 
-    public void addStringKeys(String[] keys){
+    public void addStringKeys(String[] keys) {
         Collections.addAll(stringKeys, keys);
     }
 
-    public void outputTelemetry(){
-        if (printWriter != null && initSuccess) {
-            toWrite = "" + Timer.getFPGATimestamp() + Constants.DATA_SEPERATOR;
-            for (String key : numberKeys) {
-                toWrite += "" + SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
-            }
-            for (String key : stringKeys) {
-                toWrite += "" + SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
-            }
-            toWrite += "\r\n";
-            //System.out.println(toWrite);
-            printWriter.write(toWrite);
-            printWriter.flush();
-        }
-        else{
-            DriverStation.reportWarning("logger called to init on Null file stream", false);
-        }
+    public void outputTelemetry() {
+        // no OP
     }
 
     @Override
@@ -79,10 +97,9 @@ public class Logger extends Subsystem {
     private File getMount() {
         File media = new File("/media");
         File logging_path = null;
-        for(File mount : media.listFiles())
-        {
+        for (File mount : media.listFiles()) {
             logging_path = new File(mount.getAbsolutePath() + "/logging");
-            if(logging_path.isDirectory()) {
+            if (logging_path.isDirectory()) {
                 System.out.println(logging_path.getAbsolutePath());
                 break;
             }
