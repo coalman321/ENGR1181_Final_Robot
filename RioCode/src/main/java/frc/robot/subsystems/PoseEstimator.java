@@ -36,6 +36,7 @@ public class PoseEstimator extends Subsystem {
                 addObservations(currentTime, odometry);
                 leftPrevEncCount = currentLeftEncoder;
                 rightPrevEncCount = currentRightEncoder;
+                outputTelemetry();
             }
         }
 

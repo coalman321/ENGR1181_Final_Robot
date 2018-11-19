@@ -60,6 +60,7 @@ public class Drive extends Subsystem {
                         drive(DriveHelper.arcadeDrive(operatorInput[1], operatorInput[2], false));
                         break;
                 }
+                outputTelemetry();
             }
         }
 
