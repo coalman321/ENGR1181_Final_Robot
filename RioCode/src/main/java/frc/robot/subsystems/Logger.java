@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.lib.loops.ILooper;
 import frc.lib.loops.Loop;
 import frc.robot.Constants;
 
@@ -80,20 +81,6 @@ public class Logger extends Subsystem {
         Collections.addAll(stringKeys, keys);
     }
 
-    public void outputTelemetry() {
-        // no OP
-    }
-
-    @Override
-    public void stop() {
-        // no OP
-    }
-
-    @Override
-    public void reset() {
-        // no OP
-    }
-
     private File getMount() {
         File media = new File("/media");
         File logging_path = null;
@@ -115,6 +102,25 @@ public class Logger extends Subsystem {
             return new File(logging_path.getAbsolutePath() + File.separator + fileName);
         }
         return null;
+    }
+
+    @Override
+    public void registerEnabledLoops(ILooper enabledLooper) {
+        enabledLooper.register(mLoop);
+    }
+
+    public void outputTelemetry() {
+        // no OP
+    }
+
+    @Override
+    public void stop() {
+        // no OP
+    }
+
+    @Override
+    public void reset() {
+        // no OP
     }
 
 }
