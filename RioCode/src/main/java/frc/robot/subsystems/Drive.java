@@ -199,9 +199,9 @@ public class Drive extends Subsystem {
 
     private void configTalons() {
         frontLeft.setNeutralMode(NeutralMode.Coast);
-        frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.DRIVE_LEFT_PID_IDX, 0);
         frontLeft.setSensorPhase(true); //TODO validate via webdash
-        frontLeft.selectProfileSlot(0, Constants.DRIVE_LEFT_PID_IDX);
+        frontLeft.selectProfileSlot(0, Constants.DRIVE_LEFT_PID_IDX); //keep slotidx the same
         frontLeft.config_kF(0, Constants.DRIVE_LEFT_KF, 0);
         frontLeft.config_kP(0, Constants.DRIVE_LEFT_KP, 0);
         frontLeft.config_kI(0, Constants.DRIVE_LEFT_KI, 0);
@@ -209,9 +209,9 @@ public class Drive extends Subsystem {
         frontLeft.config_IntegralZone(0, 0, 0);
 
         frontRight.setNeutralMode(NeutralMode.Coast);
-        frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.DRIVE_RIGHT_PID_IDX, 0);
         frontRight.setSensorPhase(true); //TODO validate via webdash
-        frontRight.selectProfileSlot(0, Constants.DRIVE_RIGHT_PID_IDX);
+        frontRight.selectProfileSlot(0, Constants.DRIVE_RIGHT_PID_IDX); //keep slotidx the same
         frontRight.config_kF(0, Constants.DRIVE_RIGHT_KF, 0);
         frontRight.config_kP(0, Constants.DRIVE_RIGHT_KP, 0);
         frontRight.config_kI(0, Constants.DRIVE_RIGHT_KI, 0);

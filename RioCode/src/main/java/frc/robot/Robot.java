@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.loops.Looper;
 import frc.lib.util.Util;
 import frc.robot.subsystems.Drive;
@@ -48,6 +49,7 @@ public class Robot extends TimedRobot {
         manager.registerEnabledLoops(enabledLooper);
         manager.registerDisabledLoops(disabledLooper);
         disabledLooper.start();
+        SmartDashboard.putString("drive/ Markers passed", "");
     }
 
     /**
@@ -60,7 +62,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-
+        manager.outputTelemetry();
     }
 
     /**
@@ -95,6 +97,7 @@ public class Robot extends TimedRobot {
         manager.reset();
         enabledLooper.start();
         disabledLooper.stop();
+        //TODO handle any communication between systems?
     }
 
     /**
