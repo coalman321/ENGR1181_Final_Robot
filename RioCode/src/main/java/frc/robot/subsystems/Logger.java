@@ -28,12 +28,14 @@ public class Logger extends Subsystem {
 
         @Override
         public void onStart(double timestamp) {
-
+            if(printWriter == null || !initSuccess){
+                DriverStation.reportWarning("logger called to init on Null file stream", false);
+            }
         }
 
         @Override
         public void onLoop(double timestamp) {
-            if (printWriter != null && initSuccess) {
+            if (printWriter != null && initSuccess) { //probably redundant
                 toWrite = "" + Timer.getFPGATimestamp() + Constants.DATA_SEPERATOR;
                 for (String key : numberKeys) {
                     toWrite += "" + SmartDashboard.getNumber(key, 0.0) + Constants.DATA_SEPERATOR;
@@ -46,13 +48,15 @@ public class Logger extends Subsystem {
                 printWriter.write(toWrite);
                 printWriter.flush();
             } else {
-                DriverStation.reportWarning("logger called to init on Null file stream", false);
+
             }
         }
 
         @Override
         public void onStop(double timestamp) {
-
+            if(printWriter == null || !initSuccess){
+                DriverStation.reportWarning("Results from the last run were not logged due to an initialization error", false);
+            }
         }
     };
 
