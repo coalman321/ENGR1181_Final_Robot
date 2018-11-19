@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.loops.Looper;
@@ -43,6 +45,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         Util.validateBuild();
+        NetworkTableInstance.getDefault().setUpdateRate(Constants.LOOPER_DT);
         m_oi = new OI();
         Logger.getInstance().addNumberKeys(Constants.NUMBER_KEYS);
         Logger.getInstance().addStringKeys(Constants.STRING_KEYS);
