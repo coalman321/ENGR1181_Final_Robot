@@ -7,6 +7,13 @@ import java.text.DecimalFormat;
  * (x, y) plane.
  */
 public class Translation2d implements Interpolable<Translation2d> {
+
+    protected static Translation2d mIdentity = new Translation2d();
+
+    public static Translation2d identity(){
+        return mIdentity;
+    }
+
     protected double x_;
     protected double y_;
 

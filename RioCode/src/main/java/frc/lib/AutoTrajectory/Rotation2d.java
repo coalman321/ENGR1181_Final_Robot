@@ -13,7 +13,7 @@ public class Rotation2d implements Interpolable<Rotation2d> {
     protected double cos_angle_;
     protected double sin_angle_;
 
-    public static final Rotation2d Identity = Rotation2d.fromDegrees(0);
+    protected static final Rotation2d mIdentity = new Rotation2d();
 
     public Rotation2d() {
         this(1, 0, false);
@@ -38,6 +38,10 @@ public class Rotation2d implements Interpolable<Rotation2d> {
 
     public static Rotation2d fromDegrees(double angle_degrees) {
         return fromRadians(Math.toRadians(angle_degrees));
+    }
+
+    public static Rotation2d identity(){
+        return mIdentity;
     }
 
     /**

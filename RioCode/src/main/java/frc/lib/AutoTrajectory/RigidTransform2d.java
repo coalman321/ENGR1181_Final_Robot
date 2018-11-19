@@ -9,6 +9,12 @@ package frc.lib.AutoTrajectory;
 public class RigidTransform2d implements Interpolable<RigidTransform2d> {
     private final static double kEps = 1E-9;
 
+    protected static final RigidTransform2d mIdentity = new RigidTransform2d();
+
+    public RigidTransform2d identity(){
+        return mIdentity;
+    }
+
     // Movement along an arc at constant curvature and velocity. We can use
     // ideas from "differential calculus" to create new RigidTransform2d's from
     // a Delta.

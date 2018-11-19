@@ -247,7 +247,7 @@ public class Drive extends Subsystem {
     public void reset() {
         mDriveControlState = DriveControlState.OPEN_LOOP;
         periodicIO = new PeriodicIO();
-        setHeading(Rotation2d.Identity);
+        setHeading(Rotation2d.identity());
         resetEncoders();
     }
 
