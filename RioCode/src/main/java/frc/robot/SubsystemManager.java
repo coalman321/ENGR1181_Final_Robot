@@ -67,6 +67,9 @@ public class SubsystemManager implements ILooper {
             for (Subsystem s : mAllSubsystems) {
                 s.writePeriodicOutputs();
             }
+            for (Subsystem s : mAllSubsystems) {
+                s.outputTelemetry();
+            }
         }
 
         @Override
@@ -91,6 +94,9 @@ public class SubsystemManager implements ILooper {
             }
             for (Subsystem s : mAllSubsystems) {
                 s.writePeriodicOutputs();
+            }
+            for (Subsystem s : mAllSubsystems) {
+                s.outputTelemetry();
             }
         }
 

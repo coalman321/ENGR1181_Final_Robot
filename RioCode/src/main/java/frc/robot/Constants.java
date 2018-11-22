@@ -25,10 +25,10 @@ public class Constants {
      */
 
     // Drive CAN ID assignments
-    public static final int DRIVE_FRONT_LEFT_ID = 0;
-    public static final int DRIVE_FRONT_RIGHT_ID = 1;
-    public static final int DRIVE_REAR_LEFT_ID = 2;
-    public static final int DRIVE_REAR_RIGHT_ID = 3;
+    public static final int DRIVE_FRONT_LEFT_ID = 1;
+    public static final int DRIVE_FRONT_RIGHT_ID = 2;
+    public static final int DRIVE_REAR_LEFT_ID = 3;
+    public static final int DRIVE_REAR_RIGHT_ID = 4;
 
     //Sensor assignments
     public static final int PIGEON_ID = 0; //on can bus. not via a talon
@@ -92,7 +92,7 @@ public class Constants {
 
     //Joystick controls
     public static final Joystick MASTER = new Joystick(0);
-    public static final HIDHelper.HIDConstants MASTER_STICK = new HIDHelper.HIDConstants(MASTER, 0.15, 1.0, 1.0, 0.5, 2);
+    public static final HIDHelper.HIDConstants MASTER_STICK = new HIDHelper.HIDConstants(MASTER, 0.15, 1.0, -1.0, 0.5, 2);
 
 }
 
