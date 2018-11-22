@@ -201,6 +201,7 @@ public class Drive extends Subsystem {
 
     private void configTalons() {
         frontLeft.setNeutralMode(NeutralMode.Coast);
+        frontLeft.setInverted(false);
         frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.DRIVE_LEFT_PID_IDX, 0);
         frontLeft.setSensorPhase(true); //TODO validate via webdash
         frontLeft.selectProfileSlot(0, Constants.DRIVE_LEFT_PID_IDX); //keep slotidx the same
@@ -211,6 +212,7 @@ public class Drive extends Subsystem {
         frontLeft.config_IntegralZone(0, 0, 0);
 
         frontRight.setNeutralMode(NeutralMode.Coast);
+        frontRight.setInverted(true);
         frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.DRIVE_RIGHT_PID_IDX, 0);
         frontRight.setSensorPhase(true); //TODO validate via webdash
         frontRight.selectProfileSlot(0, Constants.DRIVE_RIGHT_PID_IDX); //keep slotidx the same
@@ -219,22 +221,31 @@ public class Drive extends Subsystem {
         frontRight.config_kI(0, Constants.DRIVE_RIGHT_KI, 0);
         frontRight.config_kD(0, Constants.DRIVE_RIGHT_KD, 0);
         frontRight.config_IntegralZone(0, 0, 0);
+
+        rearRight.setNeutralMode(NeutralMode.Coast);
+        rearRight.setInverted(true);
+
+        rearLeft.setNeutralMode(NeutralMode.Coast);
+        rearLeft.setInverted(false);
+
+        resetEncoders();
     }
 
     @Override
     public void outputTelemetry() {
-        SmartDashboard.putNumber("drive/ leftDemand", periodicIO.left_demand);
-        SmartDashboard.putNumber("drive/ rightDemand", periodicIO.right_demand);
-        SmartDashboard.putNumber("drive/ leftVelocity", periodicIO.left_velocity_ticks_per_100ms);
-        SmartDashboard.putNumber("drive/ rightVelocity", periodicIO.right_velocity_ticks_per_100ms);
-        SmartDashboard.putNumber("drive/ leftRPM", uPer100MsToRPM(periodicIO.left_velocity_ticks_per_100ms));
-        SmartDashboard.putNumber("drive/ rightRPM", uPer100MsToRPM(periodicIO.right_velocity_ticks_per_100ms));
-        SmartDashboard.putNumber("drive/ leftPosition", periodicIO.left_position_ticks);
-        SmartDashboard.putNumber("drive/ rightPosition", periodicIO.right_position_ticks);
-        SmartDashboard.putNumberArray("drive/ operatorInput", operatorInput);
-        SmartDashboard.putString("drive/ controlMode", mDriveControlState.toString());
+        SmartDashboard.putNumber("drive/leftDemand", periodicIO.left_demand);
+        SmartDashboard.putNumber("drive/rightDemand", periodicIO.right_demand);
+        SmartDashboard.putNumber("drive/leftVelocity", periodicIO.left_velocity_ticks_per_100ms);
+        SmartDashboard.putNumber("drive/rightVelocity", periodicIO.right_velocity_ticks_per_100ms);
+        SmartDashboard.putNumber("drive/leftRPM", uPer100MsToRPM(periodicIO.left_velocity_ticks_per_100ms));
+        SmartDashboard.putNumber("drive/rightRPM", uPer100MsToRPM(periodicIO.right_velocity_ticks_per_100ms));
+        SmartDashboard.putNumber("drive/leftPosition", periodicIO.left_position_ticks);
+        SmartDashboard.putNumber("drive/rightPosition", periodicIO.right_position_ticks);
+        SmartDashboard.putNumber("drive/gyro", periodicIO.gyro_heading.getDegrees());
+        SmartDashboard.putNumberArray("drive/operatorInput", operatorInput);
+        SmartDashboard.putString("drive/controlMode", mDriveControlState.toString());
         if (pathFollowingController != null)
-            SmartDashboard.putString("drive/ markersPassed", pathFollowingController.getMarkersCrossed().toString());
+            SmartDashboard.putString("drive/markersPassed", pathFollowingController.getMarkersCrossed().toString());
         //else SmartDashboard.putString("drive/ Markers passed", "");
     }
 
