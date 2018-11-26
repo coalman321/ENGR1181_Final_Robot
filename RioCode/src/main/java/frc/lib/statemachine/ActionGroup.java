@@ -32,7 +32,7 @@ public class ActionGroup {
         group.forEach(action -> action.onLoop());
     }
 
-    public boolean isFinnished() {
+    public boolean isFinished() {
         if (t_Start + t_Timeout <= Timer.getFPGATimestamp()) return true;
         boolean temp = true;
         for (Action action : group) {

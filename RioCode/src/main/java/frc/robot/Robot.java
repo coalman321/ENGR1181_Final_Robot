@@ -54,6 +54,8 @@ public class Robot extends TimedRobot {
         manager.registerEnabledLoops(enabledLooper);
         manager.registerDisabledLoops(disabledLooper);
         disabledLooper.start();
+
+        SmartDashboard.putNumber("StateMachine/ state", -1);
         SmartDashboard.putString("drive/Markers passed", "");
     }
 

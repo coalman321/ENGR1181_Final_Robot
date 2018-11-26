@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -61,7 +62,6 @@ public class Drive extends Subsystem {
                         if (DriverStation.getInstance().isOperatorControl())
                             operatorInput = HIDHelper.getAdjStick(Constants.MASTER_STICK);
                         else operatorInput = new double[]{0, 0, 0};
-                        SmartDashboard.putNumberArray("stick", operatorInput);
                         drive(DriveHelper.arcadeDrive(operatorInput[1], operatorInput[2], false));
                         break;
                 }
@@ -210,6 +210,7 @@ public class Drive extends Subsystem {
         frontLeft.config_kI(0, Constants.DRIVE_LEFT_KI, 0);
         frontLeft.config_kD(0, Constants.DRIVE_LEFT_KD, 0);
         frontLeft.config_IntegralZone(0, 0, 0);
+        frontLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature,10,0);
 
         frontRight.setNeutralMode(NeutralMode.Coast);
         frontRight.setInverted(true);
@@ -221,6 +222,7 @@ public class Drive extends Subsystem {
         frontRight.config_kI(0, Constants.DRIVE_RIGHT_KI, 0);
         frontRight.config_kD(0, Constants.DRIVE_RIGHT_KD, 0);
         frontRight.config_IntegralZone(0, 0, 0);
+        frontRight.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature,10,0);
 
         rearRight.setNeutralMode(NeutralMode.Coast);
         rearRight.setInverted(true);
