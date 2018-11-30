@@ -92,7 +92,7 @@ public class Constants {
 
     //Joystick controls
     public static final Joystick MASTER = new Joystick(0);
-    public static final HIDHelper.HIDConstants MASTER_STICK = new HIDHelper.HIDConstants(MASTER, 0.15, 1.0, -1.0, 0.5, 2);
+    public static final HIDHelper.HIDConstants MASTER_STICK = new HIDHelper.HIDConstants(MASTER, 0.15, 1.0, 5.0, 0.5, 2);
 
 }
 

@@ -59,9 +59,9 @@ public class Drive extends Subsystem {
                         break;
 
                     case OPEN_LOOP:
+                        operatorInput = new double[]{0, 0, 0};
                         if (DriverStation.getInstance().isOperatorControl())
                             operatorInput = HIDHelper.getAdjStick(Constants.MASTER_STICK);
-                        else operatorInput = new double[]{0, 0, 0};
                         drive(DriveHelper.arcadeDrive(operatorInput[1], operatorInput[2], false));
                         break;
                 }
@@ -147,8 +147,8 @@ public class Drive extends Subsystem {
     }
 
     private void drive(DriveSignal signal) {
-        periodicIO.left_demand = signal.getLeft();
-        periodicIO.right_demand = signal.getRight();
+        periodicIO.left_demand = -signal.getLeft();
+        periodicIO.right_demand = -signal.getRight();
     }
 
     public synchronized Rotation2d getHeading() {
