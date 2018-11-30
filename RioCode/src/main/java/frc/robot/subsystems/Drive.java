@@ -7,17 +7,14 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lib.AutoTrajectory.*;
+import frc.lib.geometry.Rotation2d;
 import frc.lib.loops.ILooper;
 import frc.lib.loops.Loop;
 import frc.lib.util.DriveHelper;
 import frc.lib.util.DriveSignal;
 import frc.lib.util.HIDHelper;
 import frc.robot.Constants;
-
-import java.util.Set;
 
 public class Drive extends Subsystem {
 
@@ -26,7 +23,6 @@ public class Drive extends Subsystem {
     //system variables
     private DriveControlState mDriveControlState = DriveControlState.OPEN_LOOP;
     private double[] operatorInput = {0, 0, 0}; //last input set from joystick update
-    private AdaptivePurePursuitController pathFollowingController;
     private Rotation2d gyroOffset = Rotation2d.fromDegrees(0);
     private PeriodicIO periodicIO;
 
@@ -50,7 +46,7 @@ public class Drive extends Subsystem {
                     mDriveControlState = DriveControlState.PROFILING_TEST;
                 switch (mDriveControlState) {
                     case PATH_FOLLOWING:
-                        updatePathFollower();
+                        //updatePathFollower();
                         break;
                     case PROFILING_TEST:
                         if (DriverStation.getInstance().isTest()) {
@@ -107,44 +103,6 @@ public class Drive extends Subsystem {
         return (RPM * 512) / 75.0;
     }
 
-    public synchronized void followPath(Path path, boolean reversed) {
-        pathFollowingController = new AdaptivePurePursuitController(Constants.PATH_FOLLOWING_LOOKAHEAD,
-                Constants.PATH_FOLLOWING_MAX_ACCELERATION, Constants.LOOPER_DT, path, reversed, 1);
-        mDriveControlState = DriveControlState.PATH_FOLLOWING;
-        updatePathFollower();
-    }
-
-    public synchronized Set<String> getPathMarkersCrossed() {
-        if (pathFollowingController == null) {
-            return null;
-        } else {
-            return pathFollowingController.getMarkersCrossed();
-        }
-    }
-
-    public synchronized boolean isFinishedPath() {
-        if (mDriveControlState == DriveControlState.PATH_FOLLOWING && pathFollowingController.isDone()) {
-            mDriveControlState = DriveControlState.OPEN_LOOP;
-            return true;
-        } else if (mDriveControlState != DriveControlState.PATH_FOLLOWING) return true;
-        return false;
-    }
-
-    private synchronized void updatePathFollower() {
-        RigidTransform2d robot_pose = PoseEstimator.getInstance().getLatestFieldToVehicle().getValue();
-        RigidTransform2d.Delta command = pathFollowingController.update(robot_pose, Timer.getFPGATimestamp());
-        Kinematics.DriveVelocity setpoint = Kinematics.inverseKinematics(command);
-
-        // Scale the command to respect the max velocity limits
-        double max_vel = 0.0;
-        max_vel = Math.max(max_vel, Math.abs(setpoint.left));
-        max_vel = Math.max(max_vel, Math.abs(setpoint.right));
-        if (max_vel > Constants.PATH_FOLLOWING_MAX_VELOCITY) {
-            double scaling = Constants.PATH_FOLLOWING_MAX_VELOCITY / max_vel;
-            setpoint = new Kinematics.DriveVelocity(setpoint.left * scaling, setpoint.right * scaling);
-        }
-        drive(new DriveSignal(RPMToUnitsPer100Ms(inchesPerSecondToRpm(setpoint.left)), RPMToUnitsPer100Ms(inchesPerSecondToRpm(setpoint.right))));
-    }
 
     private void drive(DriveSignal signal) {
         periodicIO.left_demand = signal.getLeft();
@@ -246,9 +204,6 @@ public class Drive extends Subsystem {
         SmartDashboard.putNumber("drive/gyro", periodicIO.gyro_heading.getDegrees());
         SmartDashboard.putNumberArray("drive/operatorInput", operatorInput);
         SmartDashboard.putString("drive/controlMode", mDriveControlState.toString());
-        if (pathFollowingController != null)
-            SmartDashboard.putString("drive/markersPassed", pathFollowingController.getMarkersCrossed().toString());
-        //else SmartDashboard.putString("drive/ Markers passed", "");
     }
 
     @Override

@@ -2,10 +2,15 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lib.AutoTrajectory.*;
+import frc.lib.geometry.Pose2d;
+import frc.lib.geometry.Rotation2d;
+import frc.lib.geometry.Twist2d;
 import frc.lib.loops.ILooper;
 import frc.lib.loops.Loop;
+import frc.lib.math.InterpolatingDouble;
+import frc.lib.math.InterpolatingTreeMap;
 import frc.robot.Constants;
+import frc.robot.Kinematics;
 
 import java.util.Map;
 
@@ -14,28 +19,29 @@ public class PoseEstimator extends Subsystem {
 
     private static PoseEstimator m_instance = new PoseEstimator();
 
-    private InterpolatingTreeMap<InterpolatingDouble, RigidTransform2d> fieldToVehicle;
-    private double leftPrevEncCount = 0;
-    private double rightPrevEncCount = 0;
+    private static final int observation_buffer_size = 100;
+
+    private InterpolatingTreeMap<InterpolatingDouble, Pose2d> fieldToVehicle;
+    private double linear_prev_dist = 0;
+    private double distance_driven = 0;
 
     private Loop mLoop = new Loop(){
 
         @Override
         public void onStart(double timestamp) {
-
+            linear_prev_dist = 0;
+            distance_driven = 0.0;
         }
 
         @Override
         public void onLoop(double timestamp) {
             synchronized (this){
-                double currentTime = Timer.getFPGATimestamp();
-                double currentLeftEncoder = Drive.getInstance().getLeftEncoderRotations() * Constants.WHEEL_DIAMETER * 3.14159;
-                double currentRightEncoder = Drive.getInstance().getRightEncoderRotations() * Constants.WHEEL_DIAMETER * 3.14159;
-                Rotation2d gyro = Drive.getInstance().getHeading();
-                RigidTransform2d odometry = generateOdometryFromSensors((currentLeftEncoder - leftPrevEncCount), (currentRightEncoder - rightPrevEncCount), gyro);
-                addObservations(currentTime, odometry);
-                leftPrevEncCount = currentLeftEncoder;
-                rightPrevEncCount = currentRightEncoder;
+                final Rotation2d gyro = Drive.getInstance().getHeading();
+                final double linear_distance = Drive.getInstance(). //TODO implement
+                final double linear_delta = linear_distance - linear_prev_dist;
+                Twist2d odometry_velocity = generateOdometryFromSensors(linear_delta, gyro);
+                addObservations(timestamp, Kinematics.integrateForwardKinematics(getLatestFieldToVehicle().getValue(), odometry_velocity));
+                linear_prev_dist = linear_distance;
                 outputTelemetry();
             }
         }
@@ -51,35 +57,34 @@ public class PoseEstimator extends Subsystem {
     }
 
     private PoseEstimator(){
-        reset(0, new RigidTransform2d());
+        reset(0, Pose2d.identity());
     }
 
-    public void reset(double start_time, RigidTransform2d initial_field_to_vehicle){
-        fieldToVehicle = new InterpolatingTreeMap<>(Constants.OBSERVATION_BUFFER_SIZE);
+    public void reset(double start_time, Pose2d initial_field_to_vehicle){
+        fieldToVehicle = new InterpolatingTreeMap<>(observation_buffer_size);
         fieldToVehicle.put(new InterpolatingDouble(start_time), initial_field_to_vehicle);
-        leftPrevEncCount = 0;
-        rightPrevEncCount = 0;
     }
 
-    public synchronized Map.Entry<InterpolatingDouble, RigidTransform2d> getLatestFieldToVehicle() {
+    public synchronized Map.Entry<InterpolatingDouble, Pose2d> getLatestFieldToVehicle() {
         return fieldToVehicle.lastEntry();
     }
 
-    public RigidTransform2d generateOdometryFromSensors(double left_encoder_delta_distance, double right_encoder_delta_distance, Rotation2d current_gyro_angle) {
-        RigidTransform2d last_measurement = getLatestFieldToVehicle().getValue();
-        return Kinematics.integrateForwardKinematics(last_measurement, left_encoder_delta_distance, right_encoder_delta_distance, current_gyro_angle);
+    public synchronized Twist2d generateOdometryFromSensors(double x_delta_distance, Rotation2d current_gyro_angle) {
+        final Pose2d last_measurement = getLatestFieldToVehicle().getValue();
+        final Twist2d delta = Kinematics.forwardKinematics2(x_delta_distance, last_measurement.getRotation(), current_gyro_angle);
+        return delta;
     }
 
-    public synchronized void addObservations(double timestamp, RigidTransform2d observation) {
+    public synchronized void addObservations(double timestamp, Pose2d observation) {
         fieldToVehicle.put(new InterpolatingDouble(timestamp), observation);
     }
 
 
     @Override
     public void outputTelemetry() {
-        RigidTransform2d odometry = getLatestFieldToVehicle().getValue();
-        SmartDashboard.putNumber("Robot Pose/X", odometry.getTranslation().getX());
-        SmartDashboard.putNumber("Robot Pose/Y", odometry.getTranslation().getY());
+        Pose2d odometry = getLatestFieldToVehicle().getValue();
+        SmartDashboard.putNumber("Robot Pose/X", odometry.getTranslation().x());
+        SmartDashboard.putNumber("Robot Pose/Y", odometry.getTranslation().y());
         SmartDashboard.putNumber("Robot Pose/Theta", odometry.getRotation().getDegrees());
     }
 
@@ -90,7 +95,7 @@ public class PoseEstimator extends Subsystem {
 
     @Override
     public void reset() {
-        reset(Timer.getFPGATimestamp(), new RigidTransform2d());
+        reset(Timer.getFPGATimestamp(), Pose2d.identity());
     }
 
     @Override

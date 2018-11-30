@@ -78,7 +78,6 @@ public class Constants {
             "Robot Pose/ X", "Robot Pose/ Y", "Robot Pose/ Theta"
     };
     public static final String[] STRING_KEYS = {}; //no string keys currently
-    public static int OBSERVATION_BUFFER_SIZE = 10; //size of pose observation buffer
 
     /*
      * ------------------------

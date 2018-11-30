@@ -69,7 +69,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-
+        disabledLooper.outputToSmartDashboard();
+        enabledLooper.outputToSmartDashboard();
     }
 
     /**
