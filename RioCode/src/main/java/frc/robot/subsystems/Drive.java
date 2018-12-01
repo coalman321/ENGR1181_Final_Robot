@@ -14,6 +14,7 @@ import frc.lib.loops.Loop;
 import frc.lib.util.DriveHelper;
 import frc.lib.util.DriveSignal;
 import frc.lib.util.HIDHelper;
+import frc.lib.util.Units;
 import frc.robot.Constants;
 
 public class Drive extends Subsystem {
@@ -50,7 +51,8 @@ public class Drive extends Subsystem {
                         break;
                     case PROFILING_TEST:
                         if (DriverStation.getInstance().isTest()) {
-                            drive(new DriveSignal(RPMToUnitsPer100Ms(inchesPerSecondToRpm(Constants.MP_TEST_SPEED)), RPMToUnitsPer100Ms(inchesPerSecondToRpm(Constants.MP_TEST_SPEED))));
+                            drive(new DriveSignal(Units.RPMToUnitsPer100Ms(Units.inchesPerSecondToRpm(Constants.MP_TEST_SPEED)),
+                                    Units.RPMToUnitsPer100Ms(Units.inchesPerSecondToRpm(Constants.MP_TEST_SPEED))));
                         }
                         break;
 
@@ -87,23 +89,6 @@ public class Drive extends Subsystem {
         return M_DRIVE;
     }
 
-    private static double inchesToRotations(double inches) {
-        return inches / (Constants.WHEEL_DIAMETER * Math.PI);
-    }
-
-    private static double inchesPerSecondToRpm(double inches_per_second) {
-        return inchesToRotations(inches_per_second) * 60;
-    }
-
-    private static double uPer100MsToRPM(double uPer100Ms) {
-        return (uPer100Ms * 75) / 512.0;
-    }
-
-    private static double RPMToUnitsPer100Ms(double RPM) {
-        return (RPM * 512) / 75.0;
-    }
-
-
     private void drive(DriveSignal signal) {
         periodicIO.left_demand = signal.getLeft();
         periodicIO.right_demand = signal.getRight();
@@ -128,6 +113,14 @@ public class Drive extends Subsystem {
 
     public double getRightEncoderRotations() {
         return periodicIO.right_position_ticks / Constants.DRIVE_ENCODER_PPR;
+    }
+
+    public double getLeftEncoderDistance() {
+        return Units.rotationsToInches(getLeftEncoderRotations());
+    }
+
+    public double getRightEncoderDistance() {
+        return Units.rotationsToInches(getRightEncoderRotations());
     }
 
     public void resetEncoders() {
@@ -197,8 +190,8 @@ public class Drive extends Subsystem {
         SmartDashboard.putNumber("drive/rightDemand", periodicIO.right_demand);
         SmartDashboard.putNumber("drive/leftVelocity", periodicIO.left_velocity_ticks_per_100ms);
         SmartDashboard.putNumber("drive/rightVelocity", periodicIO.right_velocity_ticks_per_100ms);
-        SmartDashboard.putNumber("drive/leftRPM", uPer100MsToRPM(periodicIO.left_velocity_ticks_per_100ms));
-        SmartDashboard.putNumber("drive/rightRPM", uPer100MsToRPM(periodicIO.right_velocity_ticks_per_100ms));
+        SmartDashboard.putNumber("drive/leftRPM", Units.uPer100MsToRPM(periodicIO.left_velocity_ticks_per_100ms));
+        SmartDashboard.putNumber("drive/rightRPM", Units.uPer100MsToRPM(periodicIO.right_velocity_ticks_per_100ms));
         SmartDashboard.putNumber("drive/leftPosition", periodicIO.left_position_ticks);
         SmartDashboard.putNumber("drive/rightPosition", periodicIO.right_position_ticks);
         SmartDashboard.putNumber("drive/gyro", periodicIO.gyro_heading.getDegrees());

@@ -15,9 +15,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-/**
- * Contains basic functions that are used often.
- */
 public class Util {
 
     public static final double kEpsilon = 1e-9;
@@ -42,17 +39,6 @@ public class Util {
     public static double interpolate(double a, double b, double x) {
         x = limit(x, 0.0, 1.0);
         return a + (b - a) * x;
-    }
-
-    public static String joinStrings(final String delim, final List<?> strings) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < strings.size(); ++i) {
-            sb.append(strings.get(i).toString());
-            if (i < strings.size() - 1) {
-                sb.append(delim);
-            }
-        }
-        return sb.toString();
     }
 
     public static boolean epsilonEquals(double a, double b, double epsilon) {

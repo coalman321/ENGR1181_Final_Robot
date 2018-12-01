@@ -44,11 +44,9 @@ public class Constants {
     public static final String ROBOT_NAME = "Nyoom";
     public static double TRACK_WIDTH_INCHES = 23.5; //TODO validate
     public static double TRACK_SCRUB_FACTOR = 0.5; //TODO validate
-    public static double WHEEL_DIAMETER = 6.0; //TODO validate. should be around 7.5
+    public static double WHEEL_DIAMETER = 7.5; //TODO validate. should be around 7.5
     public static double DRIVE_ENCODER_PPR = 4096; //encoder counts per revolution
-    public static double PATH_FOLLOWING_LOOKAHEAD = 24.0; //lookahead in inches
-    public static double PATH_FOLLOWING_MAX_VELOCITY = 200.0; //overall max velocity - includes turns - in inches/sec
-    public static double PATH_FOLLOWING_MAX_ACCELERATION = 42.0; //overall max acceleration - includes turns - in inches/sec^2
+
 
     //Right drive PID parameters
     public static final int DRIVE_RIGHT_PID_IDX = 0; //pick one and stick to it

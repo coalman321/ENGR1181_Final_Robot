@@ -19,8 +19,7 @@ public class SplineGenerator {
      * @param t1 ending percentage of spline to parametrize
      * @return list of Pose2dWithCurvature that approximates the original spline
      */
-    public static List<Pose2dWithCurvature> parameterizeSpline(Spline s, double maxDx, double maxDy, double
-            maxDTheta, double t0, double t1) {
+    public static List<Pose2dWithCurvature> parameterizeSpline(Spline s, double maxDx, double maxDy, double maxDTheta, double t0, double t1) {
         List<Pose2dWithCurvature> rv = new ArrayList<>();
         rv.add(s.getPose2dWithCurvature(0.0));
         double dt = (t1 - t0);
@@ -45,8 +44,7 @@ public class SplineGenerator {
         return parameterizeSplines(splines, kMaxDX, kMaxDY, kMaxDTheta);
     }
 
-    public static List<Pose2dWithCurvature> parameterizeSplines(List<? extends Spline> splines, double maxDx, double maxDy,
-                                                                double maxDTheta) {
+    public static List<Pose2dWithCurvature> parameterizeSplines(List<? extends Spline> splines, double maxDx, double maxDy, double maxDTheta) {
         List<Pose2dWithCurvature> rv = new ArrayList<>();
         if (splines.isEmpty()) return rv;
         rv.add(splines.get(0).getPose2dWithCurvature(0.0));
@@ -59,8 +57,7 @@ public class SplineGenerator {
     }
 
     private static void getSegmentArc(Spline s, List<Pose2dWithCurvature> rv, double t0, double t1, double maxDx,
-                                      double maxDy,
-                                      double maxDTheta) {
+                                      double maxDy, double maxDTheta) {
         Translation2d p0 = s.getPoint(t0);
         Translation2d p1 = s.getPoint(t1);
         Rotation2d r0 = s.getHeading(t0);
