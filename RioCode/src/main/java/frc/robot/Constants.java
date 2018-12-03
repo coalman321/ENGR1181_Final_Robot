@@ -42,11 +42,26 @@ public class Constants {
     //Robot Parameters
     public static final double LOOPER_DT = 0.010;
     public static final String ROBOT_NAME = "Nyoom";
-    public static double TRACK_WIDTH_INCHES = 23.5; //TODO validate
-    public static double TRACK_SCRUB_FACTOR = 0.5; //TODO validate
-    public static double WHEEL_DIAMETER = 7.5; //TODO validate. should be around 7.5
     public static double DRIVE_ENCODER_PPR = 4096; //encoder counts per revolution
 
+    // Wheels
+    public static final double DRIVE_WHEEL_TRACK_WIDTH_INCHES = 23.5; //TODO validate
+    public static final double DRIVE_WHEEL_DIAMETER_INCHES = 7.5;//TODO validate. should be around 7.5
+    public static final double DRIVE_WHEEL_RADIUS_INCHES = DRIVE_WHEEL_DIAMETER_INCHES / 2.0;
+    public static final double TRACK_SCRUB_FACTOR = 1.0;  // Tune me!
+
+    // Tuned dynamics
+    public static final double ROBOT_LINEAR_INERTIA = 60.0;  // kg TODO tune
+    public static final double ROBOT_ANGULAR_INERTIA = 10.0;  // kg m^2 TODO tune
+    public static final double ROBOT_ANGULAR_DRAG = 12.0;  // N*m / (rad/sec) TODO tune
+    public static final double DRIVE_V_INTERCEPT = 1.055;  // V
+    public static final double DRIVE_KV = 0.135;  // V per rad/s
+    public static final double DRIVE_KA = 0.012;  // V per rad/s^2
+
+    //
+    public static final double PATH_KX = 4.0;  // units/s per unit of error
+    public static final double PATH_LOOKAHEAD_TIME = 0.4;  // seconds to look ahead along the path for steering
+    public static final double PATH_MIN_LOOKAHEAD_DISTANCE = 24.0;  // inches
 
     //Right drive PID parameters
     public static final int DRIVE_RIGHT_PID_IDX = 0; //pick one and stick to it

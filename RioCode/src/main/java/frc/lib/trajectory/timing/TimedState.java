@@ -1,4 +1,4 @@
-package frc.lib.trajectory;
+package frc.lib.trajectory.timing;
 
 import frc.lib.geometry.State;
 import frc.lib.util.Util;

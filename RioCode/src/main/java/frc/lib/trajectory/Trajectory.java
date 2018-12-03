@@ -1,12 +1,14 @@
 package frc.lib.trajectory;
 
 import frc.lib.geometry.State;
+import frc.lib.util.CSVWritable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Trajectory<S extends State<S>> {
+public class Trajectory<S extends State<S>> implements CSVWritable {
     protected final List<TrajectoryPoint<S>> points_;
+    protected final IndexView index_view_ = new IndexView();
 
     /**
      * Create an empty trajectory.
@@ -19,6 +21,7 @@ public class Trajectory<S extends State<S>> {
      * Create a trajectory from the given states and transforms.
      *
      * @param states The states of the trajectory.
+     * @throws InvalidTrajectoryException
      */
     public Trajectory(final List<S> states) {
         points_ = new ArrayList<>(states.size());
@@ -54,14 +57,14 @@ public class Trajectory<S extends State<S>> {
     public TrajectorySamplePoint<S> getInterpolated(final double index) {
         if (isEmpty()) {
             return null;
-        } else if (index <= 0.0) { //if under index goto first
+        } else if (index <= 0.0) {
             return new TrajectorySamplePoint<>(getPoint(0));
-        } else if (index >= length() - 1) { // if above length goto last
+        } else if (index >= length() - 1) {
             return new TrajectorySamplePoint<>(getPoint(length() - 1));
         }
         final int i = (int) Math.floor(index);
-        final double frac = index - i; // get just decimals
-        if (frac <= Double.MIN_VALUE) { //if less than min value of double return the trajectorypoint of index
+        final double frac = index - i;
+        if (frac <= Double.MIN_VALUE) {
             return new TrajectorySamplePoint<>(getPoint(i));
         } else if (frac >= 1.0 - Double.MIN_VALUE) {
             return new TrajectorySamplePoint<>(getPoint(i + 1));
@@ -70,6 +73,9 @@ public class Trajectory<S extends State<S>> {
         }
     }
 
+    public IndexView getIndexView() {
+        return index_view_;
+    }
 
     @Override
     public String toString() {
@@ -83,4 +89,37 @@ public class Trajectory<S extends State<S>> {
         return builder.toString();
     }
 
+    @Override
+    public String toCSV() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < length(); ++i) {
+            builder.append(i);
+            builder.append(",");
+            builder.append(getState(i).toCSV());
+            builder.append(System.lineSeparator());
+        }
+        return builder.toString();
+    }
+
+    public class IndexView implements TrajectoryView<S> {
+        @Override
+        public TrajectorySamplePoint<S> sample(double index) {
+            return Trajectory.this.getInterpolated(index);
+        }
+
+        @Override
+        public double last_interpolant() {
+            return Math.max(0.0, Trajectory.this.length() - 1);
+        }
+
+        @Override
+        public double first_interpolant() {
+            return 0.0;
+        }
+
+        @Override
+        public Trajectory<S> trajectory() {
+            return Trajectory.this;
+        }
+    }
 }
