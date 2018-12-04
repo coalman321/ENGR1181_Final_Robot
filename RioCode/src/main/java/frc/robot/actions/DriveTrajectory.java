@@ -1,6 +1,5 @@
 package frc.robot.actions;
 
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import frc.lib.geometry.Pose2dWithCurvature;
 import frc.lib.statemachine.Action;
@@ -29,6 +28,19 @@ public class DriveTrajectory extends Action {
     }
 
     @Override
+    public void onStart() {
+        System.out.println("Starting trajectory! (length=" + mTrajectory.getRemainingProgress() + ")");
+        if (mResetPose) {
+            mRobotState.reset(Timer.getFPGATimestamp(), mTrajectory.getState().state().getPose());
+        }
+        mDrive.setTrajectory(mTrajectory);
+    }
+
+    @Override
+    public void onLoop() {
+    }
+
+    @Override
     public boolean isFinished() {
         if (mDrive.isDoneWithTrajectory()) {
             System.out.println("Trajectory finished");
@@ -38,19 +50,6 @@ public class DriveTrajectory extends Action {
     }
 
     @Override
-    public void onLoop() {
-    }
-
-    @Override
     public void onStop() {
-    }
-
-    @Override
-    public void onStart() {
-        System.out.println("Starting trajectory! (length=" + mTrajectory.getRemainingProgress() + ")");
-        if (mResetPose) {
-            mRobotState.reset(Timer.getFPGATimestamp(), mTrajectory.getState().state().getPose());
-        }
-        mDrive.setTrajectory(mTrajectory);
     }
 }

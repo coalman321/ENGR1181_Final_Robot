@@ -74,6 +74,10 @@ public class PoseEstimator extends Subsystem {
         return field_to_vehicle_.lastEntry();
     }
 
+    public synchronized Pose2d getFieldToVehicle(double timestamp) {
+        return field_to_vehicle_.getInterpolated(new InterpolatingDouble(timestamp));
+    }
+
     public synchronized Twist2d generateOdometryFromSensors(double left_encoder_delta_distance, double
             right_encoder_delta_distance, Rotation2d current_gyro_angle) {
         final Pose2d last_measurement = getLatestFieldToVehicle().getValue();

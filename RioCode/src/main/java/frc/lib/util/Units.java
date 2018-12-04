@@ -35,11 +35,9 @@ public class Units {
         return Math.toDegrees(radians);
     }
 
-    public static double inchesToRotations(double inches) {
-        return inches / (Constants.WHEEL_DIAMETER * Math.PI);
-    }
+    public static double inchesToRotations(double inches) { return inches / (Constants.DRIVE_WHEEL_DIAMETER_INCHES * Math.PI); }
 
-    public static double rotationsToInches(double rotations) { return rotations * (Constants.WHEEL_DIAMETER * Math.PI); }
+    public static double rotationsToInches(double rotations) { return rotations * (Constants.DRIVE_WHEEL_DIAMETER_INCHES * Math.PI); }
 
     public static double inchesPerSecondToRpm(double inches_per_second) { return inchesToRotations(inches_per_second) * 60; }
 
@@ -49,6 +47,10 @@ public class Units {
 
     public static double RPMToUnitsPer100Ms(double RPM) {
         return (RPM * 512) / 75.0;
+    }
+
+    public static double radiansPerSecondToTicksPer100ms(double rads_per_sec){
+        return RPMToUnitsPer100Ms(rads_per_sec_to_rpm(rads_per_sec));
     }
 
 }
