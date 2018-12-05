@@ -54,7 +54,7 @@ public class Drive extends Subsystem {
                         break;
                     case PROFILING_TEST:
                         if (DriverStation.getInstance().isTest()) {
-                            drive(new DriveSignal(RPMToUnitsPer100Ms(inchesPerSecondToRpm(Constants.MP_TEST_SPEED)), RPMToUnitsPer100Ms(inchesPerSecondToRpm(Constants.MP_TEST_SPEED))));
+                            drive(new DriveSignal(RPMToUnitsPer100Ms(inchesPerSecondToRpm(-Constants.MP_TEST_SPEED)), RPMToUnitsPer100Ms(inchesPerSecondToRpm(-Constants.MP_TEST_SPEED))));
                         }
                         break;
 
@@ -62,7 +62,7 @@ public class Drive extends Subsystem {
                         operatorInput = new double[]{0, 0, 0};
                         if (DriverStation.getInstance().isOperatorControl())
                             operatorInput = HIDHelper.getAdjStick(Constants.MASTER_STICK);
-                        drive(DriveHelper.arcadeDrive(operatorInput[1], operatorInput[2], false));
+                        drive(DriveHelper.arcadeDrive(operatorInput[1], -operatorInput[2], false));
                         break;
                 }
                 outputTelemetry();
@@ -143,7 +143,7 @@ public class Drive extends Subsystem {
             double scaling = Constants.PATH_FOLLOWING_MAX_VELOCITY / max_vel;
             setpoint = new Kinematics.DriveVelocity(setpoint.left * scaling, setpoint.right * scaling);
         }
-        drive(new DriveSignal(RPMToUnitsPer100Ms(inchesPerSecondToRpm(setpoint.left)), RPMToUnitsPer100Ms(inchesPerSecondToRpm(setpoint.right))));
+        drive(new DriveSignal(RPMToUnitsPer100Ms(inchesPerSecondToRpm(-setpoint.left)), RPMToUnitsPer100Ms(inchesPerSecondToRpm(-setpoint.right))));
     }
 
     private void drive(DriveSignal signal) {
@@ -201,7 +201,7 @@ public class Drive extends Subsystem {
 
     private void configTalons() {
         frontLeft.setNeutralMode(NeutralMode.Coast);
-        frontLeft.setInverted(false);
+        frontLeft.setInverted(true);
         frontLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.DRIVE_LEFT_PID_IDX, 0);
         frontLeft.setSensorPhase(true); //TODO validate via webdash
         frontLeft.selectProfileSlot(0, Constants.DRIVE_LEFT_PID_IDX); //keep slotidx the same
@@ -213,7 +213,7 @@ public class Drive extends Subsystem {
         frontLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature,10,0);
 
         frontRight.setNeutralMode(NeutralMode.Coast);
-        frontRight.setInverted(true);
+        frontRight.setInverted(false);
         frontRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.DRIVE_RIGHT_PID_IDX, 0);
         frontRight.setSensorPhase(true); //TODO validate via webdash
         frontRight.selectProfileSlot(0, Constants.DRIVE_RIGHT_PID_IDX); //keep slotidx the same
@@ -225,10 +225,10 @@ public class Drive extends Subsystem {
         frontRight.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature,10,0);
 
         rearRight.setNeutralMode(NeutralMode.Coast);
-        rearRight.setInverted(true);
+        rearRight.setInverted(false);
 
         rearLeft.setNeutralMode(NeutralMode.Coast);
-        rearLeft.setInverted(false);
+        rearLeft.setInverted(true);
 
         resetEncoders();
     }

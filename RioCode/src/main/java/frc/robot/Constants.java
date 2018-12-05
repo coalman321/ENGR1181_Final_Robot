@@ -44,7 +44,7 @@ public class Constants {
     public static final String ROBOT_NAME = "Nyoom";
     public static double TRACK_WIDTH_INCHES = 23.5; //TODO validate
     public static double TRACK_SCRUB_FACTOR = 0.5; //TODO validate
-    public static double WHEEL_DIAMETER = 6.0; //TODO validate. should be around 7.5
+    public static double WHEEL_DIAMETER = 7.58; //TODO validate. should be around 7.5
     public static double DRIVE_ENCODER_PPR = 4096; //encoder counts per revolution
     public static double PATH_FOLLOWING_LOOKAHEAD = 24.0; //lookahead in inches
     public static double PATH_FOLLOWING_MAX_VELOCITY = 200.0; //overall max velocity - includes turns - in inches/sec
@@ -52,17 +52,17 @@ public class Constants {
 
     //Right drive PID parameters
     public static final int DRIVE_RIGHT_PID_IDX = 0; //pick one and stick to it
-    public static final double DRIVE_RIGHT_KF = 0.0; //TODO tune Me!
-    public static final double DRIVE_RIGHT_KP = 0.0; //TODO tune Me!
+    public static final double DRIVE_RIGHT_KF = 0.65; //TODO tune Me!
+    public static final double DRIVE_RIGHT_KP = 0.6; //TODO tune Me!
     public static final double DRIVE_RIGHT_KI = 0.0; //can be scary. generally unneeded
-    public static final double DRIVE_RIGHT_KD = 0.0; //TODO tune Me!
+    public static final double DRIVE_RIGHT_KD = 1.3; //TODO tune Me!
 
     //Left Drive PID parameters
     public static final int DRIVE_LEFT_PID_IDX = 0; //pick one and stick to it
-    public static final double DRIVE_LEFT_KF = 0.0; //TODO tune Me!
-    public static final double DRIVE_LEFT_KP = 0.0; //TODO tune Me!
+    public static final double DRIVE_LEFT_KF = 0.65; //TODO tune Me!
+    public static final double DRIVE_LEFT_KP = 0.6; //TODO tune Me!
     public static final double DRIVE_LEFT_KI = 0.0; //can be scary. generally unneeded
-    public static final double DRIVE_LEFT_KD = 0.0; //TODO tune Me!
+    public static final double DRIVE_LEFT_KD = 1.3; //TODO tune Me!
 
     /*
      * ------------------------
@@ -88,11 +88,11 @@ public class Constants {
 
     //Calibration parameters
     public static final boolean ENABLE_MP_TEST_MODE = false;
-    public static final int MP_TEST_SPEED = 5; //inches per second
+    public static final int MP_TEST_SPEED = 8; //inches per second
 
     //Joystick controls
     public static final Joystick MASTER = new Joystick(0);
-    public static final HIDHelper.HIDConstants MASTER_STICK = new HIDHelper.HIDConstants(MASTER, 0.15, 1.0, 5.0, 0.5, 2);
+    public static final HIDHelper.HIDConstants MASTER_STICK = new HIDHelper.HIDConstants(MASTER, 0.15, 1.0, 1.0, 0.5, 2);
 
 }
 

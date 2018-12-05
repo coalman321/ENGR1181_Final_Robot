@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
         enabledLooper.start();
         disabledLooper.stop();
         //TODO handle any communication between systems?
-        //StateMachine.runMachine(new DriveTest());
+        StateMachine.runMachine(new DriveTest());
     }
 
     /**

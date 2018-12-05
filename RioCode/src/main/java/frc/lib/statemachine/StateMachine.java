@@ -1,5 +1,6 @@
 package frc.lib.statemachine;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -37,6 +38,7 @@ public class StateMachine {
         }catch (Exception e){
             state.set(-3);
             SmartDashboard.putNumber("StateMachine/ state", state.get());
+            DriverStation.reportError(e.getStackTrace().toString(),false);
         }
     };
 
