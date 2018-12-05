@@ -5,13 +5,16 @@ import frc.lib.statemachine.Action;
 
 public class Wait extends Action {
 
-    public Wait(double delay)
+    double t_start = 0, t_delay, t_end = 0;
 
-    double t_start = 0, t_delay = 0;
+    public Wait(double delay){
+        t_delay = delay;
+    }
 
     @Override
     public void onStart() {
         t_start = Timer.getFPGATimestamp();
+        t_end = t_start + t_delay;
     }
 
     @Override
@@ -21,7 +24,7 @@ public class Wait extends Action {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return Timer.getFPGATimestamp() > t_end;
     }
 
     @Override
