@@ -48,7 +48,7 @@ public class Constants {
     public static final double DRIVE_WHEEL_DIAMETER_INCHES = 7.5;//TODO validate. should be around 7.5
     public static final double DRIVE_WHEEL_RADIUS_INCHES = DRIVE_WHEEL_DIAMETER_INCHES / 2.0;
     public static final double TRACK_SCRUB_FACTOR = 1.0;  //TODO tune
-    public static double DRIVE_ENCODER_PPR = 4096; //encoder counts per revolution
+    public static final double DRIVE_ENCODER_PPR = 4096; //encoder counts per revolution
 
     // Tuned dynamics
     public static final double ROBOT_LINEAR_INERTIA = 12.7;  // kg
